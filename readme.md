@@ -7,6 +7,9 @@ pip install -r requirements.txt
 python run.py
 ```
 
+### Postman
+
+https://documenter.getpostman.com/view/9481172/SW7aXTFc?version=latest
 
 ### ROTAS
 * Path que realiza a criação de uma conta; 
