@@ -7,32 +7,14 @@ pip install -r requirements.txt
 python run.py
 ```
 
-### Postman
+Após a primeira execução do run.py, é necessário comentar as linhas 4 e 5 do run.py:
+
+    from config import database
+    database.init_db()
+
+
+### Documentação no Postman
 
 https://documenter.getpostman.com/view/9481172/SW7aXTFc?version=latest
 
-### ROTAS
-* Path que realiza a criação de uma conta; 
 
-    POST /v1/contas  
-    
-* Path que realiza operação de depósito em uma conta;
-
-    PUT /v1/contas/<conta.id>/deposita 
-
-* Path que realiza operação de saque em uma conta;
-
-    PUT /v1/contas/<conta.id>/saque
-
-* Path que realiza o bloqueio de uma conta;
-
-    POST /v1/contas/{conta.id}/bloqueia
-
-* Path que recupera o extrato de transações de uma conta;
-
-    GET /v1/transacoes/<conta.id>
-    
-
-* Path que realiza operação de consulta de saldo em determinada conta;
-
-    GET /v1/contas/<conta.id>/saldo
