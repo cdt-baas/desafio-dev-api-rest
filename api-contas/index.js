@@ -13,10 +13,10 @@ db = mysql.createConnection({
 
 const port = 3000;
 
-app.get('/conta/:id', (req, res) => {
-    let sql = 'SELECT * FROM contas WHERE idConta =?';
+app.get('/conta/saldo/:idConta', (req, res) => {
+    let sql = 'SELECT saldo FROM contas WHERE idConta =?';
     
-    db.query(sql, req.params.id, function(err, data, fields) {
+    db.query(sql, req.params.idConta, function(err, data, fields) {
       if (err) throw err;
       res.json({
         status: 200,
@@ -25,6 +25,7 @@ app.get('/conta/:id', (req, res) => {
       })
     })
   });
+
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));('mysq')
