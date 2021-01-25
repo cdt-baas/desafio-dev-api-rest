@@ -1,0 +1,19 @@
+{
+  "name": "api-transacao",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "express-generator": "^4.16.1",
+    "mysql2": "^2.2.5",
+    "node-cache": "^5.1.2"
+  }
+}
