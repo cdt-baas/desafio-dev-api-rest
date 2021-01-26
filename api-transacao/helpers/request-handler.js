@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 
-const API_CONTAS_URL = "http://localhost:3000/conta/";
+const API_CONTAS_URL = "http://api-contas:3000/conta/";
 
 const API_ATUALIZA_SALDO = API_CONTAS_URL + "atualizarSaldo";
 

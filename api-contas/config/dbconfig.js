@@ -1,7 +1,7 @@
 const mysql = require("mysql2");
 
 const connection = mysql.createPool({
-  host: 'localhost',
+  host: 'mysql',
   user: 'root',
   database: 'desafio-dev',
   waitForConnections: true,

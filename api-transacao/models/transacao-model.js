@@ -120,7 +120,11 @@ Transacao.saque = async (novaTransacao, result) => {
 
     } catch (error) {
         console.log(error);
-        result({ kind: error.response.data }, null);
+        if(error.response.data !=undefined){
+            result({ kind: error.response.data }, null);
+        }else{
+            result({ kind: error }, null); 
+        }
     }
 
 };

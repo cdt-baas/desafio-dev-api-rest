@@ -1,3 +1,13 @@
+CREATE TABLE `pessoas` (
+  `idPessoa` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) NOT NULL,
+  `cpf` varchar(45) NOT NULL,
+  `dataNascimento` date NOT NULL,
+  PRIMARY KEY (`idPessoa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `pessoas` (nome, cpf, dataNascimento) values ('Joao', '111','1989-01-01'), ('Maria', '111','1989-01-01');
+
 CREATE TABLE `contas` (
   `idConta` int NOT NULL AUTO_INCREMENT,
   `idPessoa` int NOT NULL,
@@ -9,15 +19,7 @@ CREATE TABLE `contas` (
   PRIMARY KEY (`idConta`),
   KEY `fk_contas_1_idx` (`idPessoa`),
   CONSTRAINT `fk_contas_1` FOREIGN KEY (`idPessoa`) REFERENCES `pessoas` (`idPessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `pessoas` (
-  `idPessoa` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) NOT NULL,
-  `cpf` varchar(45) NOT NULL,
-  `dataNascimento` date NOT NULL,
-  PRIMARY KEY (`idPessoa`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `transacoes` (
   `idTransacao` int NOT NULL AUTO_INCREMENT,

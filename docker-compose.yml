@@ -1,0 +1,32 @@
+version: '3'
+
+services: 
+  api-contas:
+    build: ./api-contas
+    ports:
+      - "3000:3000"
+
+    links:
+      - mysql
+      
+  api-transacao:
+    build: ./api-transacao
+    ports:
+      - '3001:3001'
+
+    links:
+      - mysql
+      - api-contas
+
+  mysql:
+    image: 'mysql:latest'
+    ports: 
+      - '3306:3306'
+    volumes:
+      - ./database/dbscript.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      
+    environment:
+     MYSQL_ROOT_PASSWORD: "password1234"
+     MYSQL_DATABASE: "desafio-dev"     
+    
+    

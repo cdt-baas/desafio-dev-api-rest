@@ -73,7 +73,6 @@ Conta.inativar = (idConta, result) => {
         }
   
         if (res.affectedRows == 0) {
-          // not found Customer with the id
           result({ kind: "not_found" }, null);
           return;
         }
@@ -95,7 +94,6 @@ Conta.inativar = (idConta, result) => {
         }
   
         if (res.affectedRows == 0) {
-          // not found Customer with the id
           result({ kind: "not_found" }, null);
           return;
         }
