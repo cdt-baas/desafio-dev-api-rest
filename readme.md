@@ -64,10 +64,13 @@ Se você for aprovad(a) nesta etapa, será convidado para uma entrevista final.
   - O que vamos avaliar:
     ```
     * Seu código; 
+    * Dockerfile ou docker-compose do serviço.
     * Script de banco;
     * Organização;
     * Boas práticas;
-    * Diferenciais;    
+    * Diferenciais; 
+    * Docker
+    * Desenho da Arquitetura - apenas para candiados que estão participando do processo para o nosso time de Arquitetura.
     ```
 
 
