@@ -64,15 +64,19 @@ Se você for aprovad(a) nesta etapa, será convidado para uma entrevista final.
   - O que vamos avaliar:
     ```
     * Seu código; 
-    * Dockerfile ou docker-compose do serviço.
+    * Dockerfile ou docker-compose do serviço;
     * Script de banco;
     * Organização;
     * Boas práticas;
     * Diferenciais; 
-    * Docker
-    * Desenho da Arquitetura - apenas para candiados que estão participando do processo para o nosso time de Arquitetura.
     ```
 
+  - Teste para o time de Arquitetura? 
+    ```
+    * Baseado no que foi desenvolvido nos envie uma solução da Arquitetura utilizando serviços na nuvem como a AWS (diferencial), Azure e GCP;
+    * Junto com as instruções de execução, explique qual Design Pattern você utilizou e por que o escolheu para a sua solução.
+    ```
+  
 
 ### Instruções
       1. Faça o fork do desafio;
