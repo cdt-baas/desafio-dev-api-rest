@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ContasApplication<contas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.baas.contas.ContasApplication",
+            "projectName": "contas",
+            "args": ""
+        }
+    ]
+}

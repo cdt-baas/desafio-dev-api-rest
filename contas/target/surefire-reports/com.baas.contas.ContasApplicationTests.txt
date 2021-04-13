@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.baas.contas.ContasApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.608 s <<< FAILURE! - in com.baas.contas.ContasApplicationTests
+contextLoads  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Could not determine type for: com.baas.contas.entity.Conta, at table: transacao, for columns: [org.hibernate.mapping.Column(conta)]
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Could not determine type for: com.baas.contas.entity.Conta, at table: transacao, for columns: [org.hibernate.mapping.Column(conta)]
+Caused by: org.hibernate.MappingException: Could not determine type for: com.baas.contas.entity.Conta, at table: transacao, for columns: [org.hibernate.mapping.Column(conta)]
+
