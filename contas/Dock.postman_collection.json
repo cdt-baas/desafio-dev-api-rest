@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "2e3266c0-fde8-4c31-b85d-179fd456cc6f",
+		"name": "Dock",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criação de uma conta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idConta\": 321,\n    \"pessoa\": {\n        \"idPessoa\": 1,\n        \"nome\": \"Felipe\",\n        \"cpf\": \"33582795888\",\n        \"dataCriacao\": \"20/06/2020\" },\n    \"saldo\": 0.00,\n    \"limiteSaqueDiario\": 1000.00,\n    \"flagAtivo\": true,\n    \"tipoConta\": 1,\n    \"dataCriacao\": \"25/06/2020\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/conta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar todas as contas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar uma conta específica",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conta/321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta",
+						"321"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta de saldo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conta/321/saldo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta",
+						"321",
+						"saldo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Efetuar uma transação",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idTransacao\": 9797,\n    \"conta\": {\n        \"idConta\": 321,\n        \"pessoa\": {\n            \"idPessoa\": 1,\n            \"nome\": \"Felipe\",\n            \"cpf\": \"33582795888\",\n            \"dataCriacao\": \"20/06/2020\" },\n        \"saldo\": 0.00,\n        \"limiteSaqueDiario\": 1000.00,\n        \"flagAtivo\": true,\n        \"tipoConta\": 1,\n        \"dataCriacao\": \"25/06/2020\"\n    },\n    \"valor\": 50.00,\n    \"dataTransacao\": \"26/06/2020\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transacao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacao"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Extrato de uma conta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conta/321/extrato",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta",
+						"321",
+						"extrato"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bloquear contas",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conta/322/bloqueio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta",
+						"322",
+						"bloqueio"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
