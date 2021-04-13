@@ -2,15 +2,14 @@
 
 
 ## Pré requisitos
-> JDK 11
-> Maven 4.0
+> *JDK 11*
+
+> *Maven 4.0*
 
 
 ## ESCOPO MÍNIMO:
 
-● Implementar path que realiza a criação de uma conta;
-
-Segue abaixo a criação de 3 contas diferentes:
+### Implementar path que realiza a criação de uma conta
 
 ```
 curl --location --request POST 'http://localhost:8080/conta' \
@@ -67,10 +66,8 @@ curl --location --request POST 'http://localhost:8080/conta' \
 ```
 
 
-● Implementar path que realiza operação de depósito em
-uma conta;
+### Implementar path que realiza operação de depósito em uma conta
 
-Segue abaixo um depósito da conta 321 criada no primeiro item:
 
 ```
 curl --location --request POST 'http://localhost:8080/transacao' \
@@ -96,16 +93,14 @@ curl --location --request POST 'http://localhost:8080/transacao' \
 ```
 
 
-● Implementar path que realiza operação de consulta de
-saldo em determinada conta;
+### Implementar path que realiza operação de consulta de saldo em determinada conta
 
 ```
 curl --location --request GET 'http://localhost:8080/conta/321/saldo'
 ```
 
 
-● Implementar path que realiza operação de saque em uma
-conta;
+### Implementar path que realiza operação de saque em uma conta
 
 ```
 curl --location --request POST 'http://localhost:8080/transacao' \
@@ -131,15 +126,14 @@ curl --location --request POST 'http://localhost:8080/transacao' \
 ```
 
 
-● Implementar path que realiza o bloqueio de uma conta;
+### Implementar path que realiza o bloqueio de uma conta
 
 ```
 curl --location --request PATCH 'http://localhost:8080/conta/{idConta}/bloqueio'
 ```
 
 
-● Implementar path que recupera o extrato de transações
-de uma conta.
+### Implementar path que recupera o extrato de transações de uma conta
 
 ```
 curl --location --request GET 'http://localhost:8080/conta/321/extrato'
@@ -148,4 +142,5 @@ curl --location --request GET 'http://localhost:8080/conta/321/extrato'
 
 ## Item diferencial
 
-● Elaborar documentação: http://localhost:8080/swagger-ui.html#/
+### Elaborar documentação
+http://localhost:8080/swagger-ui.html#/
