@@ -6,6 +6,8 @@
 
 > *Maven 4.0*
 
+## Collection Postman
+Na raiz do projeto fiz o commit do arquivo Dock.postman_collection.json para auxiliar nos testes pelo aplicativo Postman.
 
 ## ESCOPO MÍNIMO:
 
