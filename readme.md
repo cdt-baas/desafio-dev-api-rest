@@ -1,86 +1,28 @@
+# Teste Dock - Wellison Victor Belusso
 
-### Desafio
-Olá, queremos convidá-lo(a) a participar do nosso desafio de seleção.  Pronto(a) para participar? Seu trabalho será visto pelo nosso time e você receberá um feedback ao final sobre o que achamos do seu trabalho. Não é legal?
+Implementada API para cadastro, deposito, saque e extrado de uma conta bancária.
 
-### Sobre a oportunidade 
-A vaga é para Desenvolvedor(a), temos vagas com diversos níveis de senioridade e para cada um deles utilizaremos critérios específicos considerando este aspecto, combinado? 
-Se você for aprovad(a) nesta etapa, será convidado para uma entrevista final.
+### Inicialização em ambiente de desenvolvimento:
 
-### Desafio Técnico
-  Nós trabalhamos com meios de pagamento e nada melhor do que um bom sistema para gestão de contas:
-  
-  - Pré-requisitos:
-    ```
-    * Desenvolver os recursos em API Rest que realizam operações bancárias com a entidade conta a seguir:
-    ```
-    | Contas | Tipo |
-    |-|-|
-    | idConta | Numérico |
-    | idPessoa | Numérico |
-    | saldo | Monetário |
-    | limiteSaqueDiario | Monetário |
-    | flagAtivo | Condicional |
-    | tipoConta | Numérido |
-    | dataCriacao | Data |
+1. run `npm i`
+2. run `node src/index.js`
 
-    ```
-    * Tabela de transações realizadas na conta
-    ```
-    | Transacoes | Tipo |
-    |-|-|
-    | idTransacao | Numérico |
-    | idConta | Numérico |
-    | valor | Monetário |
-    | dataTransacao | Data |
+### Inicialização com docker
 
-    ```
-    * P.S.: Não é necessário realizar operações com a tabela pessoa, mas é necessária a criação da tabela para mapeamento da relação com a conta e enviar script de criação de pelo menos uma pessoa.
-    ```
+1. run `docker build . -t api-dock`
+2. run `docker run -p 3434:3434 -d api-dock`
 
-    | Pessoas | Tipo |
-    |-|-|
-    | idPessoa | Numérico |
-    | nome | Texto |
-    | cpf | Texto |
-    | dataNascimento | Data |    
+## Documentação
 
-  - O que esperamos como escopo mínimo:
-    ```
-    * Implementar path que realiza a criação de uma conta;
-    * Implementar path que realiza operação de depósito em uma conta;
-    * Implementar path que realiza operação de consulta de saldo em determinada conta;
-    * Implementar path que realiza operação de saque em uma conta;
-    * Implementar path que realiza o bloqueio de uma conta;
-    * Implementar path que recupera o extrato de transações de uma conta;
-    ```
-  - O que será diferencial:
-    ```
-    * Implementar extrato por período;
-    * Elaborar manual de execução;
-    * Elaborar documentação;
-    * Elaborar testes.
-    ```
-    
-  - O que vamos avaliar:
-    ```
-    * Seu código; 
-    * Dockerfile ou docker-compose do serviço;
-    * Script de banco;
-    * Organização;
-    * Boas práticas;
-    * Diferenciais; 
-    ```
+1. http://127.0.0.1:3434/docs
 
-  - Teste para o time de Arquitetura? 
-    ```
-    * Baseado no que foi desenvolvido nos envie uma solução da Arquitetura utilizando serviços na nuvem como a AWS (diferencial), Azure e GCP;
-    * Junto com as instruções de execução, explique qual Design Pattern você utilizou e por que o escolheu para a sua solução.
-    ```
-  
+Com a aplicação em execução, o endereço contém a documentação dos end-points e possibilita testar das rotinas(swagger).
 
-### Instruções
-      1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador o usuário wesleyjoliveira;
-      3. Desenvolva. Você terá 7 (sete) dias a partir da data do envio do desafio; 
-      4. Após concluir seu trabalho faça um push; 
-      5. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+## Banco de dados
+
+O banco de dados escolhido foi SQLite, utilizado TypeORM para persistência e leitura dos dados. A criação das tabelas e feita automaticamente pelo TypeORM conforme os schemas definidos em `src/entity`.
+
+## Considerações
+
+Cadastrado pessoa com idPessoa = 1 automaticamente ao inicializar a aplicação;
+Criada trigger "updateSaldo" na tabela transacoes, para atualização do saldo na tabela contas.
