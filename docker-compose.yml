@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  app: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
+    depends_on: ["mongo"]
+    links:
+      - mongo:mongo
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - ./db/:/data/db
+    ports:
+      - "27017:27017"
