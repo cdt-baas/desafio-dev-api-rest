@@ -80,7 +80,6 @@ Se você for aprovad(a) nesta etapa, será convidado para uma entrevista final.
 
 ### Instruções
       1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador o usuário wesleyjoliveira;
-      3. Desenvolva. Você terá 7 (sete) dias a partir da data do envio do desafio; 
-      4. Após concluir seu trabalho faça um push; 
-      5. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador, os usuários informados no email pelo time de recrutameto ;
+      3. Após concluir seu trabalho faça um push; 
+      4. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
