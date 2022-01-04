@@ -1,82 +1,47 @@
+# Cenário
 
-### Desafio
-Olá, queremos convidá-lo(a) a participar do nosso desafio de seleção.  Pronto(a) para participar? Seu trabalho será visto pelo nosso time e você receberá um feedback ao final sobre o que achamos do seu trabalho. Não é legal?
+A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
+Nossa próxima missão é construir uma nova conta digital Dock para nossos clientes utilizarem através de endpoints, onde receberemos requisições em um novo backend que deverá gerenciar as contas e seus portadores (os donos das contas digitais).
 
-### Sobre a oportunidade 
-A vaga é para Desenvolvedor(a), temos vagas com diversos níveis de senioridade e para cada um deles utilizaremos critérios específicos considerando este aspecto, combinado? 
-Se você for aprovad(a) nesta etapa, será convidado para uma entrevista final.
+# Requisitos
 
-### Desafio Técnico
-  Nós trabalhamos com meios de pagamento e nada melhor do que um bom sistema para gestão de contas:
-  
-  - Pré-requisitos:
-    ```
-    * Desenvolver os recursos em API Rest que realizam operações bancárias com a entidade conta a seguir:
-    ```
-    | Contas | Tipo |
-    |-|-|
-    | idConta | Numérico |
-    | idPessoa | Numérico |
-    | saldo | Monetário |
-    | limiteSaqueDiario | Monetário |
-    | flagAtivo | Condicional |
-    | tipoConta | Numérido |
-    | dataCriacao | Data |
+- Deve ser possível criar e remover **portadores**
+    - Um **portador** deve conter apenas seu *nome completo* e *CPF*
+    - O *CPF* deve ser válido e único no cadastro de **portadores**
+- As **contas digital Dock** devem conter as seguintes funcionalidades:
+    - A conta deve ser criada utilizando o *CPF* do **portador**
+    - Uma conta deve ter seu *saldo*, *número* e *agência* disponíveis para consulta
+    - Necessário ter funcionalidade para fazer a *consulta de extrato* da conta *por período*
+    - Um **portador** pode fechar a **conta digital Dock** a qualquer instante
+    - Executar as operações de *saque* e *depósito*
+        - *Depósito* é liberado para todas as *contas ativas* e *desbloqueadas*
+        - *Saque* é permitido para todas as *contas ativas* e *desbloqueadas* desde que haja *saldo disponível* e não ultrapasse o limite diário de *2 mil reais*
 
-    ```
-    * Tabela de transações realizadas na conta
-    ```
-    | Transacoes | Tipo |
-    |-|-|
-    | idTransacao | Numérico |
-    | idConta | Numérico |
-    | valor | Monetário |
-    | dataTransacao | Data |
+## Regulação obrigatória
 
-    ```
-    * P.S.: Não é necessário realizar operações com a tabela pessoa, mas é necessária a criação da tabela para mapeamento da relação com a conta e enviar script de criação de pelo menos uma pessoa.
-    ```
+- Precisamos *bloquear* e *desbloquear* a **conta digital Dock** a qualquer momento
+- A **conta digital Dock** nunca poderá ter o *saldo negativo*
 
-    | Pessoas | Tipo |
-    |-|-|
-    | idPessoa | Numérico |
-    | nome | Texto |
-    | cpf | Texto |
-    | dataNascimento | Data |    
 
-  - O que esperamos como escopo mínimo:
-    ```
-    * Implementar path que realiza a criação de uma conta;
-    * Implementar path que realiza operação de depósito em uma conta;
-    * Implementar path que realiza operação de consulta de saldo em determinada conta;
-    * Implementar path que realiza operação de saque em uma conta;
-    * Implementar path que realiza o bloqueio de uma conta;
-    * Implementar path que recupera o extrato de transações de uma conta;
-    ```
-  - O que será diferencial:
-    ```
-    * Implementar extrato por período;
-    * Elaborar manual de execução;
-    * Elaborar documentação;
-    * Elaborar testes.
-    ```
-    
-  - O que vamos avaliar:
-    ```
-    * Seu código; 
-    * Dockerfile ou docker-compose do serviço;
-    * Script de banco;
-    * Organização;
-    * Boas práticas;
-    * Diferenciais; 
-    ```
+#  Orientações
 
-  - Teste para o time de Arquitetura? 
-    ```
-    * Baseado no que foi desenvolvido nos envie uma solução da Arquitetura utilizando serviços na nuvem como a AWS (diferencial), Azure e GCP;
-    * Junto com as instruções de execução, explique qual Design Pattern você utilizou e por que o escolheu para a sua solução.
-    ```
-  
+Utilize qualquer uma das linguagens de programação:
+- Java
+- Javascript
+- Typescript
+- Python
+- Kotlin
+- Golang
+
+Desenvolva o case seguindo as melhores práticas que julgar necessário, aplique todos os conceitos, se atente a qualidade, utilize toda e qualquer forma de governança de código válido. Vamos considerar toda e qualquer implementação, trecho de código, documentação e/ou intenção compartilhada conosco. Esperamos também que o desafio seja feito dentro do tempo disponibilizado e que esteja condizente com a posição pretendida.
+
+É necessário ter o desafio 100% funcional contendo informações e detalhes sobre: como iniciar a aplicação, interagir com as funcionalidades disponíveis e qualquer outro ponto adicional.
+
+## Diferenciais
+
+- Práticas, padrões e conceitos de microservices será considerado um diferencial para nós por existir uma variedade de produtos e serviços dentro da Dock.
+- Temos 100% das nossas aplicações e infraestrutura na nuvem, consideramos um diferencial, caso o desafio seja projeto para ser executado na nuvem.
+- Nossos times são autônomos e têm liberdade para definir arquiteturas e soluções. Por este motivo será considerado diferencial toda: arquitetura, design, paradigma e documentação detalhando a sua abordagem.
 
 ### Instruções
       1. Faça o fork do desafio;
