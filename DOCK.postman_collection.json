@@ -1,0 +1,494 @@
+{
+	"info": {
+		"_postman_id": "7aa6e950-7353-4ba6-875c-1d08358302b8",
+		"name": "DOCK",
+		"description": "Através dos seguintes end-points os clientes poderam enviar ao novo backend as requisições para gerenciar as contas e seus portadores (os donos das contas digitais).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Portadores",
+			"item": [
+				{
+					"name": "Contas",
+					"item": [
+						{
+							"name": "Transacoes",
+							"item": [
+								{
+									"name": "Pega transacoes de conta",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}{{transacoes}}/1?data_inicial=2022-01-12&data_final=2022-01-15",
+											"host": [
+												"{{baseUrl}}{{transacoes}}"
+											],
+											"path": [
+												"1"
+											],
+											"query": [
+												{
+													"key": "data_inicial",
+													"value": "2022-01-12"
+												},
+												{
+													"key": "data_final",
+													"value": "2022-01-15"
+												}
+											]
+										},
+										"description": "**Query Params:**\n\n*   data_inicial: Inicio do range de pesquisa de transações para retornar o extrato\n*   data_final: Fim do range de pesquisa de transações para retornar o extrato\n    \n\nNota: A inexistencia de qualquer das duas omite o filtro de datas"
+									},
+									"response": []
+								},
+								{
+									"name": "Debito (Saque)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"valor\": 1000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}{{transacoes}}/1/debito",
+											"host": [
+												"{{baseUrl}}{{transacoes}}"
+											],
+											"path": [
+												"1",
+												"debito"
+											]
+										},
+										"description": "Saque é permitido para todas as contas ativas e desbloqueadas desde que haja saldo disponível e não ultrapasse o limite diário de dois mil (2000) reais.\n\n**Parâmetros do body:**\n\n*   valor: Valor em reais a retirar"
+									},
+									"response": []
+								},
+								{
+									"name": "Credito (Deposito)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"valor\": 2000\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}{{transacoes}}/1/credito",
+											"host": [
+												"{{baseUrl}}{{transacoes}}"
+											],
+											"path": [
+												"1",
+												"credito"
+											]
+										},
+										"description": "**Parâmetros do body:**\n\n*   valor: Valor em reais a depositar"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Pega contas de portador",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}{{portadores}}/2{{contas}}",
+									"host": [
+										"{{baseUrl}}{{portadores}}"
+									],
+									"path": [
+										"2{{contas}}"
+									]
+								},
+								"description": "O parâmetro de rota define o id do portador"
+							},
+							"response": []
+						},
+						{
+							"name": "Cria conta",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"status\": \"ativa\",\r\n        \"saldo\": 25,\r\n        \"agencia\": 2\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}{{portadores}}/2{{contas}}",
+									"host": [
+										"{{baseUrl}}{{portadores}}"
+									],
+									"path": [
+										"2{{contas}}"
+									]
+								},
+								"description": "**Parâmetros de Body:**\n\n*   Status: Estado da conta: Se for \"ativa\" permite transações, se for \"bloqueada\" não permite transações\n    \n\n*   saldo: Valor em reais\n*   agencia: Utilizada para ordenamento das contas\n    \n\nNota: Foi considerado o id do registro como número de conta."
+							},
+							"response": []
+						},
+						{
+							"name": "Atualiza conta",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"bloqueada\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}{{portadores}}/2{{contas}}/7",
+									"host": [
+										"{{baseUrl}}{{portadores}}"
+									],
+									"path": [
+										"2{{contas}}",
+										"7"
+									]
+								},
+								"description": "**Parâmetros de Body:**\n\n*   Status: Estado da conta: Se for \"ativa\" permite transações, se for \"bloqueada\" não permite transações\n    \n\n*   saldo: Valor em reais\n*   agencia: Utilizada para ordenamento das contas\n    \n\nNota: Foi considerado o id do registro como número de conta."
+							},
+							"response": []
+						},
+						{
+							"name": "Apaga conta",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}{{portadores}}/2{{contas}}/8",
+									"host": [
+										"{{baseUrl}}{{portadores}}"
+									],
+									"path": [
+										"2{{contas}}",
+										"8"
+									]
+								},
+								"description": "O primer parâmetro de rota define o id do portador\n\nO segundo parâmetro da rota define o id de conta (Número de conta)"
+							},
+							"response": []
+						},
+						{
+							"name": "Restaura conta",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}{{portadores}}/2{{contas}}/8/restaura",
+									"host": [
+										"{{baseUrl}}{{portadores}}"
+									],
+									"path": [
+										"2{{contas}}",
+										"8",
+										"restaura"
+									]
+								},
+								"description": "O primer parâmetro de rota define o id do portador\n\nO segundo parâmetro da rota define o id de conta (Número de conta)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Pega portadores ativos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/ativos",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"ativos"
+							]
+						},
+						"description": "Ativo quer dizer que a propiedade \"ativo\"=true"
+					},
+					"response": []
+				},
+				{
+					"name": "Pega todos os portadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							]
+						},
+						"description": "Traz os que estão inativos também"
+					},
+					"response": []
+				},
+				{
+					"name": "Cria Portador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Lorenzo Brito\",\r\n    \"ativo\": true,\r\n    \"cpf\": \"74786957011\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							]
+						},
+						"description": "**Parâmetros de Body:**\n\n*   nome: Nome do Portador\n*   ativo: Status do portador\n*   cpf: Número de identificação do portador, debe ser válido e único"
+					},
+					"response": []
+				},
+				{
+					"name": "Pega portador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/8",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"8"
+							]
+						},
+						"description": "O primer parâmetro de rota define o id do portador"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualiza portador",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Ana Souza\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/1",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "**Parâmetros de Body:**\n\n*   nome: Nome do Portador\n*   ativo: Status do portador\n*   cpf: Número de identificação do portador, debe ser válido e único"
+					},
+					"response": []
+				},
+				{
+					"name": "Deleta portador (soft-delete)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/7",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"7"
+							]
+						},
+						"description": "O parâmetro de rota define o id do portador"
+					},
+					"response": []
+				},
+				{
+					"name": "Restaura portador (soft-delete)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/7/restaura",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"7",
+								"restaura"
+							]
+						},
+						"description": "O parâmetro de rota define o id do portador"
+					},
+					"response": []
+				},
+				{
+					"name": "Bloqueia portador e contas referenciadas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/2/bloqueia",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"2",
+								"bloqueia"
+							]
+						},
+						"description": "O parâmetro de rota define o id do portador\n\nFoi considerado o fechamento da conta com o status \"bloqueada\""
+					},
+					"response": []
+				},
+				{
+					"name": "Desbloqueia portador e contas referenciadas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}{{portadores}}/2/desbloqueia",
+							"host": [
+								"{{baseUrl}}{{portadores}}"
+							],
+							"path": [
+								"2",
+								"desbloqueia"
+							]
+						},
+						"description": "O parâmetro de rota define o id do portador\n\nFoi considerado o fechamento da conta com o status \"bloqueada\""
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "portadores",
+			"value": "/portadores",
+			"type": "string"
+		},
+		{
+			"key": "contas",
+			"value": "/contas",
+			"type": "string"
+		},
+		{
+			"key": "transacoes",
+			"value": "/transacoes",
+			"type": "string"
+		}
+	]
+}
