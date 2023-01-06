@@ -9,7 +9,7 @@ import (
 
 func TestCarrier(t *testing.T) {
 	t.Run("create user with simple cpf", func(t *testing.T) {
-		data, err := domain.Create("862.288.875-41", "Victor Raton")
+		data, err := domain.CreateCarrier("862.288.875-41", "Victor Raton")
 		if err != nil {
 			t.Fatalf("expected error is null, got %v", err)
 		}
@@ -17,11 +17,11 @@ func TestCarrier(t *testing.T) {
 			t.Fail()
 		}
 	})
-	t.Run("invalid cep", func(t *testing.T) {
+	t.Run("invalid cpf", func(t *testing.T) {
 		testCases := []string{"a simple name", "63.712.675/0001-83", "8a2.288.875-41", "86228887548", "862.288.875.41"}
 		for _, tC := range testCases {
-			t.Run(fmt.Sprintf("test validate cep %s", tC), func(t *testing.T) {
-				data, err := domain.Create(tC, "Victor Raton")
+			t.Run(fmt.Sprintf("test validate cpf %s", tC), func(t *testing.T) {
+				data, err := domain.CreateCarrier(tC, "Victor Raton")
 				if err != domain.NotValidCpfError {
 					t.Fatalf("expected error is cpf is not valid, got %v", err)
 				}
