@@ -1,6 +1,7 @@
 package domain_test
 
 import (
+	"fmt"
 	"testing"
 
 	"gihub.com/victorfernandesraton/dev-api-rest/domain"
@@ -17,12 +18,17 @@ func TestCarrier(t *testing.T) {
 		}
 	})
 	t.Run("invalid cep", func(t *testing.T) {
-		data, err := domain.Create("862.288.875-413", "Victor Raton")
-		if err != domain.NotValidCpfError {
-			t.Fatalf("expected error is cpf is not valid, got %v", err)
-		}
-		if data != nil {
-			t.Fatalf("expected data is null, got %v", data)
+		testCases := []string{"a simple name", "63.712.675/0001-83", "8a2.288.875-41", "86228887548", "862.288.875.41"}
+		for _, tC := range testCases {
+			t.Run(fmt.Sprintf("test validate cep %s", tC), func(t *testing.T) {
+				data, err := domain.Create(tC, "Victor Raton")
+				if err != domain.NotValidCpfError {
+					t.Fatalf("expected error is cpf is not valid, got %v", err)
+				}
+				if data != nil {
+					t.Fatalf("expected data is null, got %v", data)
+				}
+			})
 		}
 	})
 }
