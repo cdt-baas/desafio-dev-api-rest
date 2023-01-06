@@ -7,7 +7,7 @@ type Account struct {
 	ID        string `json:"id"`
 	CPF       string `json:"cpf"`
 	CarrierId string `json:"carrier_id"`
-	Balance   int64  `json:"balance"`
+	Balance   uint64 `json:"balance"`
 }
 
 func CreateAccount(carrier Carrier) (*Account, error) {
