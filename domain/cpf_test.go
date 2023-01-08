@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gihub.com/victorfernandesraton/dev-api-rest/domain"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCpf(t *testing.T) {
@@ -41,9 +42,7 @@ func TestCpf(t *testing.T) {
 		for _, tC := range testCases {
 			t.Run(fmt.Sprintf("test validate cpf %s", tC.CEP), func(t *testing.T) {
 				err := domain.ValidateCpf(tC.CEP)
-				if err != tC.err {
-					t.Fatalf("expected error is cpf is not valid, got %v", err)
-				}
+				assert.Equal(t, err, tC.err)
 			})
 		}
 	})
