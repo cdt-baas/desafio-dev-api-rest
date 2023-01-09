@@ -4,13 +4,23 @@ import "github.com/google/uuid"
 
 // Account represents an bank account, using int64 for balance because using integer and convert unot for basis avoid gfloat losing
 type Account struct {
-	ID        string `json:"id"`
-	CPF       string `json:"cpf"`
-	CarrierId string `json:"carrier_id"`
-	Balance   uint64 `json:"balance"`
+	ID            string        `json:"id"`
+	CPF           string        `json:"cpf"`
+	CarrierId     string        `json:"carrier_id"`
+	Balance       uint64        `json:"balance"`
+	Status        AccountStatus `json:"status"`
+	Agency        uint64        `json:"agency"`
+	AccountNumber uint64        `json:"account_number"`
 }
 
-func CreateAccount(carrier Carrier) (*Account, error) {
+type AccountStatus uint
+
+const (
+	DeactivatedAccountStatus               = 0
+	CreatedAccountStatus     AccountStatus = 1
+)
+
+func CreateAccount(carrier Carrier, agency uint64) (*Account, error) {
 	if err := ValidateCpf(carrier.CPF); err != nil {
 		return nil, err
 	}
@@ -19,5 +29,7 @@ func CreateAccount(carrier Carrier) (*Account, error) {
 		ID:        uuid.NewString(),
 		CPF:       carrier.CPF,
 		CarrierId: carrier.ID,
+		Status:    CreatedAccountStatus,
+		Agency:    agency,
 	}, nil
 }
