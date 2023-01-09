@@ -8,21 +8,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type CarrierMockRepository struct {
+type carrierMockRepository struct {
 }
 
-func (r *CarrierMockRepository) FindByCPF(cpf string) (*domain.Carrier, error) {
+func (r *carrierMockRepository) FindByCPF(cpf string) (*domain.Carrier, error) {
 	if cpf != "862.288.875-31" {
 		return domain.CreateCarrier(cpf, "Test Name")
 	}
 	return nil, nil
 }
 
-func (r *CarrierMockRepository) Save(data *domain.Carrier) error {
+func (r *carrierMockRepository) Save(data *domain.Carrier) error {
 	return nil
 }
 func TestCreateCarrierCommand(t *testing.T) {
-	repository := &CarrierMockRepository{}
+	repository := &carrierMockRepository{}
 	stub := command.CreateCarrierCommand{
 		CaryRepository: repository,
 	}

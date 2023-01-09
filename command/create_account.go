@@ -25,6 +25,10 @@ type CreateAccountCommand struct {
 }
 
 func (c *CreateAccountCommand) Execute(cpf string, agency uint64) (*domain.Account, error) {
+	if err := domain.ValidateCpf(cpf); err != nil {
+		return nil, err
+	}
+
 	carrier, err := c.CarrierRepository.FindByCPF(cpf)
 	if err != nil {
 		return nil, err
@@ -43,14 +47,18 @@ func (c *CreateAccountCommand) Execute(cpf string, agency uint64) (*domain.Accou
 		return nil, err
 	}
 
-	account.AccountNumber = accountId
+	if accountId != 0 {
+		account.AccountNumber = accountId
+	} else {
+		account.AccountNumber = 1
+	}
 
-	finRepeatAccount, err := c.AccountRepository.FindByAccountNumberAndAgency(account.AccountNumber, account.Agency)
+	findRepeatAccount, err := c.AccountRepository.FindByAccountNumberAndAgency(account.AccountNumber, account.Agency)
 	if err != nil {
 		return nil, err
 	}
 
-	if finRepeatAccount != nil {
+	if findRepeatAccount != nil {
 		return nil, DuplicatedAccountAndAgencyError
 	}
 
