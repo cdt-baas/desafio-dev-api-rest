@@ -1,0 +1,28 @@
+services:
+  api:
+    build:
+      context: .
+    ports:
+      - 3000:3000
+
+    volumes:
+      - .:/usr/app/
+    container_name: dock-banking-api
+    # links:
+    #   - db
+
+  unit-test:
+    # env_file: .env
+    build:
+      context: .
+    command: go test -v ./...
+    volumes:
+      - .:/usr/app/
+    container_name: dock-banking-unit-test
+  # db:
+  #   image: mongo
+  #   ports:
+  #     - 27017:27017
+  #   container_name: bookstore-softdesign-mongodb
+  #   volumes:
+  #     - ./db/:/data/db
