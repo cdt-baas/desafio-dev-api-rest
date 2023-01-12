@@ -16,7 +16,7 @@ type Account struct {
 type AccountStatus uint
 
 const (
-	DeactivatedAccountStatus               = 0
+	DeactivatedAccountStatus AccountStatus = 0
 	CreatedAccountStatus     AccountStatus = 1
 )
 

@@ -20,6 +20,7 @@ type AccountControllerFactoryParams struct {
 	CreateAccountCommand  *command.CreateAccountCommand
 	DepositAccountCommand *command.DepositCommand
 	WithdrawalCommand     *command.WithdrawalCommand
+	UpdateStatusCommand   *command.UpdateStatusCommand
 }
 
 func CarrierControllerFactory(params *CarrierControllerFactoryParams) {
@@ -39,10 +40,11 @@ func AccountControllerFactory(params *AccountControllerFactoryParams) {
 		CreateAccountCommand: params.CreateAccountCommand,
 		DepositCommand:       params.DepositAccountCommand,
 		WithdrawalCommand:    params.WithdrawalCommand,
+		UpdateStatusCommand:  params.UpdateStatusCommand,
 	}
 
 	group.POST("", ctr.CreateAccount)
+	group.PUT("/:account/:agency", ctr.UpdateStatus)
 	group.PUT("/:account/:agency/deposit", ctr.Deposit)
 	group.PUT("/:account/:agency/withdrawal", ctr.Withdrawal)
-
 }

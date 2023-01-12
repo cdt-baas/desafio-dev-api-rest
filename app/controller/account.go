@@ -15,6 +15,7 @@ type AccountController struct {
 	CreateAccountCommand *command.CreateAccountCommand
 	DepositCommand       *command.DepositCommand
 	WithdrawalCommand    *command.WithdrawalCommand
+	UpdateStatusCommand  *command.UpdateStatusCommand
 }
 
 type CreateAccountBodyParams struct {
@@ -22,11 +23,21 @@ type CreateAccountBodyParams struct {
 	Agency uint64 `json:"agency"`
 }
 
-type DepositParams struct {
-	AccountNumber uint64  `param:"account"`
-	Agency        uint64  `param:"agency""`
-	Value         float64 `json:"value"`
+type AccountInPathParams struct {
+	AccountNumber uint64 `param:"account"`
+	Agency        uint64 `param:"agency""`
 }
+
+type DepositParams struct {
+	AccountInPathParams
+	Value float64 `json:"value"`
+}
+
+type UpdateStatusParams struct {
+	AccountInPathParams
+	Status uint `json:"status"`
+}
+
 type AccountResponse struct {
 	ID            string  `json:"id"`
 	CPF           string  `json:"cpf"`
@@ -111,6 +122,30 @@ func (c *AccountController) Withdrawal(ctx echo.Context) error {
 			break
 		case command.InsuficientBalanceError:
 			statusCode = http.StatusBadRequest
+		default:
+			break
+		}
+		return echo.NewHTTPError(statusCode, err.Error())
+	}
+
+	res := adapter.AccountToJSON(data)
+	return ctx.JSON(http.StatusOK, res)
+
+}
+
+func (c *AccountController) UpdateStatus(ctx echo.Context) error {
+	body := new(UpdateStatusParams)
+	if err := ctx.Bind(body); err != nil {
+		return err
+	}
+
+	data, err := c.UpdateStatusCommand.Execute(body.AccountNumber, body.Agency, domain.AccountStatus(body.Status))
+	if err != nil {
+		statusCode := http.StatusInternalServerError
+		switch err {
+		case command.NotFoundAccountWithNumberError:
+			statusCode = http.StatusNotFound
+			break
 		default:
 			break
 		}

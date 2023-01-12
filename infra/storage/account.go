@@ -72,3 +72,14 @@ func (r *AccountRepository) UpdateBalance(id string, balance uint64) error {
 	)
 	return err
 }
+
+func (r *AccountRepository) UpdateStatus(id string, status domain.AccountStatus) error {
+	_, err := r.DB.Exec(context.Background(),
+		`update account
+			set status = $2
+		where id = $1`,
+		id,
+		status,
+	)
+	return err
+}

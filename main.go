@@ -52,6 +52,9 @@ func main() {
 	withdrawalAccountCommand := command.WithdrawalCommand{
 		AccountRepository: &accountRepository,
 	}
+	udpateStatusCommand := command.UpdateStatusCommand{
+		AccountRepository: &accountRepository,
+	}
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, ":-)")
@@ -71,6 +74,7 @@ func main() {
 		CreateAccountCommand:  &createAccountCommand,
 		DepositAccountCommand: &depositAccountCommnad,
 		WithdrawalCommand:     &withdrawalAccountCommand,
+		UpdateStatusCommand:   &udpateStatusCommand,
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))
