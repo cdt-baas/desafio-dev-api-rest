@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"gihub.com/victorfernandesraton/dev-api-rest/app/controller"
+	"gihub.com/victorfernandesraton/dev-api-rest/app"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
 	"gihub.com/victorfernandesraton/dev-api-rest/infra/storage"
 	"net/http"
@@ -33,19 +33,36 @@ func main() {
 		DB: conn,
 	}
 
-	createCarryCommand := command.CreateCarrierCommand{
+	accountRepository := storage.AccountRepository{
+		DB: conn,
+	}
+
+	carrierCommand := command.CreateCarrierCommand{
 		CaryRepository: &carryRepository,
 	}
 
-	carrierController := controller.CarrierController{
-		CreateCarrierCommand: &createCarryCommand,
+	createAccountCommand := command.CreateAccountCommand{
+		CarrierRepository: &carryRepository,
+		AccountRepository: &accountRepository,
 	}
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, ":-)")
 	})
 
-	e.POST("/carrier", func(c echo.Context) error {
-		return carrierController.CreateCarrier(c)
+	app.CarrierControllerFactory(&app.CarrierControllerFactoryParams{
+		DefaultControllerFactory: app.DefaultControllerFactory{
+			Echo: e,
+		},
+		CreateCarrierCommand: &carrierCommand,
 	})
+
+	app.AccountControllerFactory(&app.AccountControllerFactoryParams{
+		DefaultControllerFactory: app.DefaultControllerFactory{
+			Echo: e,
+		},
+		CreateAccountCommand: &createAccountCommand,
+	})
+
 	e.Logger.Fatal(e.Start(":3000"))
 }

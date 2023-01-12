@@ -2,8 +2,8 @@ package command
 
 import (
 	"errors"
-
 	"gihub.com/victorfernandesraton/dev-api-rest/domain"
+	"log"
 )
 
 var NotFoundCarrierWithCpfError = errors.New("not found carrier with this cpf")
@@ -48,7 +48,7 @@ func (c *CreateAccountCommand) Execute(cpf string, agency uint64) (*domain.Accou
 	}
 
 	if accountId != 0 {
-		account.AccountNumber = accountId
+		account.AccountNumber = accountId + 1
 	} else {
 		account.AccountNumber = 1
 	}
@@ -61,6 +61,8 @@ func (c *CreateAccountCommand) Execute(cpf string, agency uint64) (*domain.Accou
 	if findRepeatAccount != nil {
 		return nil, DuplicatedAccountAndAgencyError
 	}
+
+	log.Println(account.CarrierId, carrier.ID)
 
 	if err := c.AccountRepository.Save(account); err != nil {
 		return nil, err
