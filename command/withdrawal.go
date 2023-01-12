@@ -23,6 +23,10 @@ func (c *WithdrawalCommand) Execute(accountNumber, agency, ammount uint64) (*dom
 		return nil, err
 	}
 
+	if account == nil || account.Status == domain.DeactivatedAccountStatus {
+		return nil, NotFoundCarrierWithCpfError
+	}
+
 	if account.Balance < ammount {
 		return nil, InsuficientBalanceError
 	}

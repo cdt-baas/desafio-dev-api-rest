@@ -29,12 +29,12 @@ func (m *accountRepositoryTransactionCommandMock) FindByAccountNumberAndAgency(n
 
 }
 
-func (m *accountRepositoryTransactionCommandMock) UpdateMany(items []*domain.Account) error {
+func (m *accountRepositoryTransactionCommandMock) UpdateBalanceTransaction(to, from *domain.Account) error {
 	var updatedList []*domain.Account
 	for _, oldVakue := range m.Data {
 
 		currentItem := oldVakue
-		for _, updatedItem := range items {
+		for _, updatedItem := range []*domain.Account{to, from} {
 			if oldVakue.ID == updatedItem.ID {
 				currentItem = updatedItem
 			}

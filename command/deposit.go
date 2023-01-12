@@ -23,7 +23,7 @@ func (c *DepositCommand) Execute(accountNumber, agency, amount uint64) (*domain.
 		return nil, err
 	}
 
-	if account == nil {
+	if account == nil || account.Status == domain.DeactivatedAccountStatus {
 		return nil, NotFoundCarrierWithCpfError
 	}
 

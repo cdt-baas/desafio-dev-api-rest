@@ -45,20 +45,20 @@ func main() {
 		CarrierRepository: &carryRepository,
 		AccountRepository: &accountRepository,
 	}
-	depositAccountCommnad := command.DepositCommand{
+	depositCommand := command.DepositCommand{
 		AccountRepository: &accountRepository,
 	}
 
 	withdrawalAccountCommand := command.WithdrawalCommand{
 		AccountRepository: &accountRepository,
 	}
-	udpateStatusCommand := command.UpdateStatusCommand{
+	updateStatusCommand := command.UpdateStatusCommand{
 		AccountRepository: &accountRepository,
 	}
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, ":-)")
-	})
+	transactionCommand := command.TransactionCommand{
+		AccountRepository: &accountRepository,
+	}
 
 	app.CarrierControllerFactory(&app.CarrierControllerFactoryParams{
 		DefaultControllerFactory: app.DefaultControllerFactory{
@@ -72,9 +72,20 @@ func main() {
 			Echo: e,
 		},
 		CreateAccountCommand:  &createAccountCommand,
-		DepositAccountCommand: &depositAccountCommnad,
+		DepositAccountCommand: &depositCommand,
 		WithdrawalCommand:     &withdrawalAccountCommand,
-		UpdateStatusCommand:   &udpateStatusCommand,
+		UpdateStatusCommand:   &updateStatusCommand,
+	})
+
+	app.TransactionControllerFactory(&app.TransactionControllerFactoryParams{
+		DefaultControllerFactory: app.DefaultControllerFactory{
+			Echo: e,
+		},
+		TransactionCommand: &transactionCommand,
+	})
+
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, ":-)")
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))

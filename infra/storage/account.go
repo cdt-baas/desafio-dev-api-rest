@@ -83,3 +83,28 @@ func (r *AccountRepository) UpdateStatus(id string, status domain.AccountStatus)
 	)
 	return err
 }
+
+func (r *AccountRepository) UpdateBalanceTransaction(to, from *domain.Account) error {
+	ctx := context.Background()
+	tx, err := r.DB.BeginTx(ctx, pgx.TxOptions{})
+	if err != nil {
+		return err
+	}
+	for _, v := range []*domain.Account{
+		to,
+		from,
+	} {
+		if _, err := tx.Exec(ctx, `update account
+			set balance = $2
+		where id = $1`, v.ID, v.Balance); err != nil {
+			defer tx.Rollback(ctx)
+			return err
+		}
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -23,6 +23,11 @@ type AccountControllerFactoryParams struct {
 	UpdateStatusCommand   *command.UpdateStatusCommand
 }
 
+type TransactionControllerFactoryParams struct {
+	DefaultControllerFactory
+	TransactionCommand *command.TransactionCommand
+}
+
 func CarrierControllerFactory(params *CarrierControllerFactoryParams) {
 	group := params.Echo.Group("/carrier")
 	ctr := &controller.CarrierController{
@@ -47,4 +52,13 @@ func AccountControllerFactory(params *AccountControllerFactoryParams) {
 	group.PUT("/:account/:agency", ctr.UpdateStatus)
 	group.PUT("/:account/:agency/deposit", ctr.Deposit)
 	group.PUT("/:account/:agency/withdrawal", ctr.Withdrawal)
+}
+
+func TransactionControllerFactory(params *TransactionControllerFactoryParams) {
+	group := params.Echo.Group("/transaction")
+	ctr := &controller.TransactionController{
+		TransactionCommand: params.TransactionCommand,
+	}
+
+	group.POST("", ctr.CreateTransaction)
 }

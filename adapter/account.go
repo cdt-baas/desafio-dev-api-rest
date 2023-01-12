@@ -17,7 +17,7 @@ func AccountToJSON(data *domain.Account) *AccountJSON {
 		ID:            data.ID,
 		CPF:           data.CPF,
 		CarrierId:     data.CarrierId,
-		Balance:       float64(int(data.Balance)) / 100,
+		Balance:       BalanceToJSON(data.Balance),
 		Status:        uint(data.Status),
 		Agency:        data.Agency,
 		AccountNumber: data.AccountNumber,

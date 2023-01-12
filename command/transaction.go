@@ -4,7 +4,7 @@ import "gihub.com/victorfernandesraton/dev-api-rest/domain"
 
 type accountRepositoryTransactionCommand interface {
 	FindByAccountNumberAndAgency(uint64, uint64) (*domain.Account, error)
-	UpdateMany([]*domain.Account) error
+	UpdateBalanceTransaction(to, from *domain.Account) error
 }
 
 type TransactionCommand struct {
@@ -39,6 +39,10 @@ func (c *TransactionCommand) Execute(params TransactionCommandParams) (*Transact
 		return nil, err
 	}
 
+	if accountTo == nil || accountTo.Status == domain.DeactivatedAccountStatus || accountFrom == nil || accountFrom.Status == domain.DeactivatedAccountStatus {
+		return nil, NotFoundCarrierWithCpfError
+	}
+
 	if accountFrom.Balance < params.Ammount {
 		return nil, InsuficientBalanceError
 	}
@@ -46,10 +50,7 @@ func (c *TransactionCommand) Execute(params TransactionCommandParams) (*Transact
 	accountFrom.Balance = accountFrom.Balance - params.Ammount
 	accountTo.Balance = accountTo.Balance + params.Ammount
 
-	if err := c.AccountRepository.UpdateMany([]*domain.Account{
-		accountFrom,
-		accountTo,
-	}); err != nil {
+	if err := c.AccountRepository.UpdateBalanceTransaction(accountTo, accountFrom); err != nil {
 		return nil, err
 	}
 
