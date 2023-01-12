@@ -10,7 +10,7 @@ var InsuficientBalanceError = errors.New("insuficient balance to be withdrawal")
 
 type accountRepositoryInWithdrawalCommand interface {
 	FindByAccountNumberAndAgency(uint64, uint64) (*domain.Account, error)
-	Update(*domain.Account) error
+	UpdateBalance(string, uint64) error
 }
 
 type WithdrawalCommand struct {
@@ -29,7 +29,7 @@ func (c *WithdrawalCommand) Execute(accountNumber, agency, ammount uint64) (*dom
 
 	account.Balance = account.Balance - ammount
 
-	if err = c.AccountRepository.Update(account); err != nil {
+	if err = c.AccountRepository.UpdateBalance(account.ID, account.Balance); err != nil {
 		return nil, err
 	}
 

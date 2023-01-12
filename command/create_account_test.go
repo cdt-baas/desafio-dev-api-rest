@@ -34,7 +34,7 @@ func (a *accountRepositoryMock) GenerateIdForAgency(agency uint64) (uint64, erro
 
 	for _, v := range a.data {
 		if v.Agency == agency {
-			result = v.AccountNumber + 1
+			result = v.AccountNumber
 		}
 	}
 	return result, nil

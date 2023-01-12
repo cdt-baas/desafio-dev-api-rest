@@ -45,6 +45,13 @@ func main() {
 		CarrierRepository: &carryRepository,
 		AccountRepository: &accountRepository,
 	}
+	depositAccountCommnad := command.DepositCommand{
+		AccountRepository: &accountRepository,
+	}
+
+	withdrawalAccountCommand := command.WithdrawalCommand{
+		AccountRepository: &accountRepository,
+	}
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, ":-)")
@@ -61,7 +68,9 @@ func main() {
 		DefaultControllerFactory: app.DefaultControllerFactory{
 			Echo: e,
 		},
-		CreateAccountCommand: &createAccountCommand,
+		CreateAccountCommand:  &createAccountCommand,
+		DepositAccountCommand: &depositAccountCommnad,
+		WithdrawalCommand:     &withdrawalAccountCommand,
 	})
 
 	e.Logger.Fatal(e.Start(":3000"))

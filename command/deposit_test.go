@@ -29,7 +29,7 @@ func (m *accountRepositoryInDepositCommandMock) FindByAccountNumberAndAgency(num
 
 }
 
-func (m *accountRepositoryInDepositCommandMock) Update(account *domain.Account) error {
+func (m *accountRepositoryInDepositCommandMock) UpdateBalance(id string, balance uint64) error {
 	return nil
 }
 

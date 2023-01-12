@@ -20,6 +20,15 @@ const (
 	CreatedAccountStatus     AccountStatus = 1
 )
 
+func (AccountStatus) FromUint(data uint) AccountStatus {
+	switch data {
+	case 0:
+		return DeactivatedAccountStatus
+	default:
+		return CreatedAccountStatus
+	}
+}
+
 func CreateAccount(carrier Carrier, agency uint64) (*Account, error) {
 	if err := ValidateCpf(carrier.CPF); err != nil {
 		return nil, err

@@ -29,7 +29,7 @@ func (m *accountRepositoryInWithdrawalCommandMock) FindByAccountNumberAndAgency(
 
 }
 
-func (m *accountRepositoryInWithdrawalCommandMock) Update(account *domain.Account) error {
+func (m *accountRepositoryInWithdrawalCommandMock) UpdateBalance(string, uint64) error {
 	return nil
 }
 

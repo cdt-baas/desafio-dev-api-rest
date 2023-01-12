@@ -25,9 +25,21 @@ func (r *AccountRepository) FindByAccountNumberAndAgency(account uint64, agency 
 		return nil, err
 	}
 	for rows.Next() {
-		err := rows.Scan(&result)
+		var id, cpf, carrierId string
+		var balance, acountNumber, agencyResult uint64
+		var status domain.AccountStatus
+		err := rows.Scan(&id, &cpf, &carrierId, &balance, &status, &agencyResult, &acountNumber)
 		if err != nil {
 			return nil, err
+		}
+		result = &domain.Account{
+			ID:            id,
+			CPF:           cpf,
+			CarrierId:     carrierId,
+			Balance:       balance,
+			Status:        status,
+			Agency:        agencyResult,
+			AccountNumber: acountNumber,
 		}
 	}
 
@@ -48,4 +60,15 @@ func (r *AccountRepository) GenerateIdForAgency(agency uint64) (uint64, error) {
 	}
 
 	return result, nil
+}
+
+func (r *AccountRepository) UpdateBalance(id string, balance uint64) error {
+	_, err := r.DB.Exec(context.Background(),
+		`update account
+			set balance = $2
+		where id = $1`,
+		id,
+		balance,
+	)
+	return err
 }

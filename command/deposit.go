@@ -2,7 +2,6 @@ package command
 
 import (
 	"errors"
-
 	"gihub.com/victorfernandesraton/dev-api-rest/domain"
 )
 
@@ -10,22 +9,27 @@ var NotFoundAccountWithNumberError = errors.New("not found account with this num
 
 type accountRepositoryInDepositCommand interface {
 	FindByAccountNumberAndAgency(uint64, uint64) (*domain.Account, error)
-	Update(*domain.Account) error
+	UpdateBalance(string, uint64) error
 }
 
 type DepositCommand struct {
 	AccountRepository accountRepositoryInDepositCommand
 }
 
-func (c *DepositCommand) Execute(accountNumber, agency, ammount uint64) (*domain.Account, error) {
+func (c *DepositCommand) Execute(accountNumber, agency, amount uint64) (*domain.Account, error) {
+
 	account, err := c.AccountRepository.FindByAccountNumberAndAgency(accountNumber, agency)
 	if err != nil {
 		return nil, err
 	}
 
-	account.Balance += ammount
+	if account == nil {
+		return nil, NotFoundCarrierWithCpfError
+	}
 
-	if err = c.AccountRepository.Update(account); err != nil {
+	account.Balance += amount
+
+	if err = c.AccountRepository.UpdateBalance(account.ID, account.Balance); err != nil {
 		return nil, err
 	}
 
