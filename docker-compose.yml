@@ -4,25 +4,26 @@ services:
       context: .
     ports:
       - 3000:3000
-
+    env_file:
+      - .env
     volumes:
       - .:/usr/app/
     container_name: dock-banking-api
-    # links:
-    #   - db
+    links:
+      - db
 
   unit-test:
-    # env_file: .env
     build:
       context: .
     command: go test -v ./...
     volumes:
       - .:/usr/app/
     container_name: dock-banking-unit-test
-  # db:
-  #   image: mongo
-  #   ports:
-  #     - 27017:27017
-  #   container_name: bookstore-softdesign-mongodb
-  #   volumes:
-  #     - ./db/:/data/db
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /path/to/postgres/database-data:/var/lib/postgresql/data/

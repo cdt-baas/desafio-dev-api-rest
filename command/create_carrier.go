@@ -2,7 +2,6 @@ package command
 
 import (
 	"errors"
-
 	"gihub.com/victorfernandesraton/dev-api-rest/domain"
 )
 
