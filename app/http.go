@@ -3,6 +3,7 @@ package app
 import (
 	"gihub.com/victorfernandesraton/dev-api-rest/app/controller"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
+	"gihub.com/victorfernandesraton/dev-api-rest/query"
 	"github.com/labstack/echo/v4"
 )
 
@@ -26,6 +27,7 @@ type AccountControllerFactoryParams struct {
 type TransactionControllerFactoryParams struct {
 	DefaultControllerFactory
 	TransactionCommand *command.TransactionCommand
+	ExtractQuery       *query.ExtractQuery
 }
 
 func CarrierControllerFactory(params *CarrierControllerFactoryParams) {
@@ -58,7 +60,9 @@ func TransactionControllerFactory(params *TransactionControllerFactoryParams) {
 	group := params.Echo.Group("/transaction")
 	ctr := &controller.TransactionController{
 		TransactionCommand: params.TransactionCommand,
+		ExtractQuery:       params.ExtractQuery,
 	}
 
 	group.POST("", ctr.CreateTransaction)
+	group.GET("/:account/:agency/extract", ctr.Extract)
 }

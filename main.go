@@ -6,6 +6,7 @@ import (
 	"gihub.com/victorfernandesraton/dev-api-rest/app"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
 	"gihub.com/victorfernandesraton/dev-api-rest/infra/storage"
+	"gihub.com/victorfernandesraton/dev-api-rest/query"
 	"net/http"
 	"os"
 
@@ -60,6 +61,11 @@ func main() {
 		AccountRepository: &accountRepository,
 	}
 
+	extractQuery := query.ExtractQuery{
+		DB:                conn,
+		AccountRepository: &accountRepository,
+	}
+
 	app.CarrierControllerFactory(&app.CarrierControllerFactoryParams{
 		DefaultControllerFactory: app.DefaultControllerFactory{
 			Echo: e,
@@ -82,6 +88,7 @@ func main() {
 			Echo: e,
 		},
 		TransactionCommand: &transactionCommand,
+		ExtractQuery:       &extractQuery,
 	})
 
 	e.GET("/", func(c echo.Context) error {
