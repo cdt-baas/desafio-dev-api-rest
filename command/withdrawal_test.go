@@ -33,6 +33,13 @@ func (m *accountRepositoryInWithdrawalCommandMock) UpdateBalance(string, uint64)
 	return nil
 }
 
+type transactionRepositoryInWithdrawalCommandMock struct {
+}
+
+func (m *transactionRepositoryInWithdrawalCommandMock) ExtractToday(string) (uint64, error) {
+	return uint64(120000), nil
+}
+
 func TestWithdrawalAccount(t *testing.T) {
 
 	carrier, _ := domain.CreateCarrier("862.288.875-41", "Victor Raton")
@@ -44,7 +51,8 @@ func TestWithdrawalAccount(t *testing.T) {
 	}
 
 	stub := &command.WithdrawalCommand{
-		AccountRepository: accountRepository,
+		AccountRepository:     accountRepository,
+		TransactionRepository: &transactionRepositoryInWithdrawalCommandMock{},
 	}
 
 	t.Run("simple Withdrawal in account 200 cents", func(t *testing.T) {
@@ -66,6 +74,12 @@ func TestWithdrawalAccount(t *testing.T) {
 		res, err := stub.Execute(uint64(2), uint64(878), uint64(200))
 		assert.Empty(t, res)
 		assert.Equal(t, err, command.NotFoundAccountWithNumberError)
+	})
+
+	t.Run("error because dally limit withdrawal is arrived", func(t *testing.T) {
+		res, err := stub.Execute(uint64(1), uint64(878), uint64(80010))
+		assert.Empty(t, res)
+		assert.Equal(t, err, command.LimitWithdrawalInDayError)
 	})
 
 }

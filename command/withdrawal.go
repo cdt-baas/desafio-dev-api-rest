@@ -7,14 +7,20 @@ import (
 )
 
 var InsuficientBalanceError = errors.New("insuficient balance to be withdrawal")
+var LimitWithdrawalInDayError = errors.New("limit for withdrawal today")
 
 type accountRepositoryInWithdrawalCommand interface {
 	FindByAccountNumberAndAgency(uint64, uint64) (*domain.Account, error)
 	UpdateBalance(string, uint64) error
 }
 
+type transactionRepositoryInWithdrawalCommand interface {
+	ExtractToday(string) (uint64, error)
+}
+
 type WithdrawalCommand struct {
-	AccountRepository accountRepositoryInWithdrawalCommand
+	AccountRepository     accountRepositoryInWithdrawalCommand
+	TransactionRepository transactionRepositoryInWithdrawalCommand
 }
 
 func (c *WithdrawalCommand) Execute(accountNumber, agency, ammount uint64) (*domain.Account, error) {
@@ -25,6 +31,16 @@ func (c *WithdrawalCommand) Execute(accountNumber, agency, ammount uint64) (*dom
 
 	if account == nil || account.Status == domain.DeactivatedAccountStatus {
 		return nil, NotFoundCarrierWithCpfError
+	}
+
+	extToday, err := c.TransactionRepository.ExtractToday(account.ID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if extToday+ammount > uint64(200000) {
+		return nil, LimitWithdrawalInDayError
 	}
 
 	if account.Balance < ammount {

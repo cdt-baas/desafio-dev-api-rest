@@ -45,6 +45,10 @@ func main() {
 		DB: conn,
 	}
 
+	transactionRepository := storage.TransactionRepository{
+		DB: conn,
+	}
+
 	carrierCommand := command.CreateCarrierCommand{
 		CaryRepository: &carryRepository,
 	}
@@ -58,7 +62,8 @@ func main() {
 	}
 
 	withdrawalAccountCommand := command.WithdrawalCommand{
-		AccountRepository: &accountRepository,
+		AccountRepository:     &accountRepository,
+		TransactionRepository: &transactionRepository,
 	}
 	updateStatusCommand := command.UpdateStatusCommand{
 		AccountRepository: &accountRepository,
