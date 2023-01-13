@@ -49,6 +49,23 @@ Desenvolva o case seguindo as melhores práticas que julgar necessário, aplique
       3. Após concluir seu trabalho faça um push; 
       4. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
 
+# Um pouco sobre a solução
+
+## Por que Go?
+Por ser estavél , flexivél e mais performática , além do uso de poucas dependências tornam Go uma solução ideal para o projeto visto que um sistema financeiro exige resiliência e alta manutembilidade
+
+## Por que Postgres
+
+Possui vários tipos interessantes a serem usados, como o financial, um valor numérico ideal par apps financeiros (ainda que nesse caso eu não tenha usado)
+
+## Por que RabbitMQ
+
+Pra que o armazenamento das transações seja passivo à aplicação, implementei de forma simples uma especie de mensageria, claro que dada a natureza do projeto, usar Apache Kafka seria mais interessante, mas visto o tempo dado e minha experiência optei pelo RabbitMQ
+
+# Arquitetura
+
+Não segui os padrões de MVC comuns, segui por uma abordagem mais "Go Way" e usando principios de solid. Uma característica desse projeto é a segregação das pattes de leitura e escrita, ainda que a base de ados seja a mesma, podemos dizer que se trata de um conceito trazido da proposta CQRS
+
 # Iniciando projeto
 
 Este projeto usa como base o docker e docker-compose, sendo a infraestrutura simples de implementar.
