@@ -1,8 +1,14 @@
 package domain
 
+import (
+	"database/sql"
+	"time"
+)
+
 // Transaction is a single struct to represent cbanges in accounts
 type Transaction struct {
-	OriginId  string `json:"origin_id"`
-	DestinyId string `json:"destiny_id"`
-	Value     int64  `json:"value"`
+	From      sql.NullString `json:"from,omitempty"`
+	To        sql.NullString `json:"to,omitempty"`
+	Value     uint64         `json:"value"`
+	CreatedAt time.Time      `json:"created_at"`
 }

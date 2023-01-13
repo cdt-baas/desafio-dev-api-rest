@@ -1,12 +1,16 @@
 package controller
 
 import (
+	"database/sql"
 	"errors"
 	"gihub.com/victorfernandesraton/dev-api-rest/adapter"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
 	"gihub.com/victorfernandesraton/dev-api-rest/domain"
+	"gihub.com/victorfernandesraton/dev-api-rest/infra/event/emitter"
 	"github.com/labstack/echo/v4"
+	"log"
 	"net/http"
+	"time"
 )
 
 var NotValidNegativeDepositError = errors.New("not valid negative value for deposit")
@@ -16,6 +20,7 @@ type AccountController struct {
 	DepositCommand       *command.DepositCommand
 	WithdrawalCommand    *command.WithdrawalCommand
 	UpdateStatusCommand  *command.UpdateStatusCommand
+	TransactionEmitter   *emitter.TransactionEmitter
 }
 
 type CreateAccountBodyParams struct {
@@ -97,6 +102,18 @@ func (c *AccountController) Deposit(ctx echo.Context) error {
 	}
 
 	res := adapter.AccountToJSON(data)
+
+	if err := c.TransactionEmitter.Execute(&domain.Transaction{
+		From: sql.NullString{
+			Valid: false,
+		},
+		To:        adapter.TransactionAccountToEvent(data),
+		Value:     value,
+		CreatedAt: time.Now(),
+	}); err != nil {
+		log.Println(err)
+	}
+
 	return ctx.JSON(http.StatusOK, res)
 
 }
@@ -129,6 +146,17 @@ func (c *AccountController) Withdrawal(ctx echo.Context) error {
 	}
 
 	res := adapter.AccountToJSON(data)
+
+	if err := c.TransactionEmitter.Execute(&domain.Transaction{
+		To: sql.NullString{
+			Valid: false,
+		},
+		From:      adapter.TransactionAccountToEvent(data),
+		Value:     value,
+		CreatedAt: time.Now(),
+	}); err != nil {
+		log.Println(err)
+	}
 	return ctx.JSON(http.StatusOK, res)
 
 }

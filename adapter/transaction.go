@@ -3,6 +3,7 @@ package adapter
 import (
 	"database/sql"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
+	"gihub.com/victorfernandesraton/dev-api-rest/domain"
 )
 
 type TransactionJSON struct {
@@ -42,4 +43,13 @@ func TransactionFromSQL(data TransactionAccountSQL) *TransactionAccountJSON {
 		Number: uint64(data.Number.Int64),
 		Agency: uint64(data.Agency.Int64),
 	}
+}
+
+func TransactionAccountToEvent(data *domain.Account) sql.NullString {
+	value := sql.NullString{}
+	if data != nil {
+		value.Valid = true
+		value.String = data.ID
+	}
+	return value
 }

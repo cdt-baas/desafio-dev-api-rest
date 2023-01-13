@@ -3,14 +3,19 @@ package controller
 import (
 	"gihub.com/victorfernandesraton/dev-api-rest/adapter"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
+	"gihub.com/victorfernandesraton/dev-api-rest/domain"
+	"gihub.com/victorfernandesraton/dev-api-rest/infra/event/emitter"
 	"gihub.com/victorfernandesraton/dev-api-rest/query"
 	"github.com/labstack/echo/v4"
+	"log"
 	"net/http"
+	"time"
 )
 
 type TransactionController struct {
 	TransactionCommand *command.TransactionCommand
 	ExtractQuery       *query.ExtractQuery
+	TransactionEmitter *emitter.TransactionEmitter
 }
 
 type TransactionAccountParams struct {
@@ -61,6 +66,15 @@ func (c *TransactionController) CreateTransaction(ctx echo.Context) error {
 		}
 
 		return echo.NewHTTPError(statusCode, err.Error())
+	}
+
+	if err := c.TransactionEmitter.Execute(&domain.Transaction{
+		From:      adapter.TransactionAccountToEvent(data.From),
+		To:        adapter.TransactionAccountToEvent(data.To),
+		Value:     data.Ammount,
+		CreatedAt: time.Now(),
+	}); err != nil {
+		log.Println(err)
 	}
 	return ctx.JSON(http.StatusOK, adapter.TransactionToJSON(data))
 }

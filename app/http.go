@@ -3,6 +3,7 @@ package app
 import (
 	"gihub.com/victorfernandesraton/dev-api-rest/app/controller"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
+	"gihub.com/victorfernandesraton/dev-api-rest/infra/event/emitter"
 	"gihub.com/victorfernandesraton/dev-api-rest/query"
 	"github.com/labstack/echo/v4"
 )
@@ -22,12 +23,14 @@ type AccountControllerFactoryParams struct {
 	DepositAccountCommand *command.DepositCommand
 	WithdrawalCommand     *command.WithdrawalCommand
 	UpdateStatusCommand   *command.UpdateStatusCommand
+	TransactionEmitter    *emitter.TransactionEmitter
 }
 
 type TransactionControllerFactoryParams struct {
 	DefaultControllerFactory
 	TransactionCommand *command.TransactionCommand
 	ExtractQuery       *query.ExtractQuery
+	TransactionEmitter *emitter.TransactionEmitter
 }
 
 func CarrierControllerFactory(params *CarrierControllerFactoryParams) {
@@ -48,6 +51,7 @@ func AccountControllerFactory(params *AccountControllerFactoryParams) {
 		DepositCommand:       params.DepositAccountCommand,
 		WithdrawalCommand:    params.WithdrawalCommand,
 		UpdateStatusCommand:  params.UpdateStatusCommand,
+		TransactionEmitter:   params.TransactionEmitter,
 	}
 
 	group.POST("", ctr.CreateAccount)
@@ -61,6 +65,7 @@ func TransactionControllerFactory(params *TransactionControllerFactoryParams) {
 	ctr := &controller.TransactionController{
 		TransactionCommand: params.TransactionCommand,
 		ExtractQuery:       params.ExtractQuery,
+		TransactionEmitter: params.TransactionEmitter,
 	}
 
 	group.POST("", ctr.CreateTransaction)

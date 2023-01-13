@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"gihub.com/victorfernandesraton/dev-api-rest/app"
 	"gihub.com/victorfernandesraton/dev-api-rest/command"
+	"gihub.com/victorfernandesraton/dev-api-rest/infra/event/consume"
+	"gihub.com/victorfernandesraton/dev-api-rest/infra/event/emitter"
+	"gihub.com/victorfernandesraton/dev-api-rest/infra/event/provider"
 	"gihub.com/victorfernandesraton/dev-api-rest/infra/storage"
 	"gihub.com/victorfernandesraton/dev-api-rest/query"
 	"net/http"
@@ -29,6 +32,10 @@ func main() {
 		os.Exit(1)
 	}
 	defer conn.Close(context.Background())
+
+	transactionEmitter := emitter.TransactionEmitter{
+		Provider: &provider.TransactionProvider{},
+	}
 
 	carryRepository := storage.CarrierRepository{
 		DB: conn,
@@ -81,6 +88,7 @@ func main() {
 		DepositAccountCommand: &depositCommand,
 		WithdrawalCommand:     &withdrawalAccountCommand,
 		UpdateStatusCommand:   &updateStatusCommand,
+		TransactionEmitter:    &transactionEmitter,
 	})
 
 	app.TransactionControllerFactory(&app.TransactionControllerFactoryParams{
@@ -89,11 +97,20 @@ func main() {
 		},
 		TransactionCommand: &transactionCommand,
 		ExtractQuery:       &extractQuery,
+		TransactionEmitter: &transactionEmitter,
 	})
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, ":-)")
 	})
 
+	queueTransactionConsume := consume.TransactionConsume{
+		Provider: &provider.TransactionProvider{},
+		DB:       conn,
+	}
+
+	go queueTransactionConsume.Listen()
+
 	e.Logger.Fatal(e.Start(":3000"))
+
 }
