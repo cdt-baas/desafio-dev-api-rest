@@ -1,20 +1,14 @@
-create table public.account
+create table public.carrier
 (
-    id             uuid             not null
-        constraint account_pk
+    id   uuid    not null
+        constraint carrier_pk
             primary key,
-    cpf            varchar          not null,
-    carrier_id     uuid             not null
-        constraint account_carrier_id_fk
-            references public.carrier,
-    balance        numeric,
-    status         bigint default 0 not null,
-    agency         bigint           not null,
-    account_number bigint           not null,
-    constraint account_unique_agency_account_number
-        unique (account_number, agency)
+    cpf  varchar not null
+        constraint carrier_unique_cpf
+            unique,
+    name text    not null
 );
 
-alter table public.account
+alter table public.carrier
     owner to postgres;
 
