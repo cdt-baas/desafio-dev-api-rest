@@ -1,0 +1,76 @@
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: digital
+      POSTGRES_PASSWORD: digital
+      POSTGRES_MULTIPLE_DATABASES: holder,account
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U digital" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"            # LocalStack edge port
+      - "4510-4559:4510-4559"  # External services port range
+    environment:
+      - SERVICES=secretsmanager
+      - DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+      - LS_LOG=info
+    volumes:
+      - ./init-localstack:/etc/localstack/init/ready.d/
+
+  holder:
+    build:
+      context: ../holder
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      localstack:
+        condition: service_started
+    container_name: holder
+    image: 279729537895.dkr.ecr.us-east-2.amazonaws.com/holder-ecr:0.1.0
+    env_file:
+      - ../holder/local.env
+      - ./db.env
+
+
+  account:
+    build:
+      context: ../account
+      dockerfile: ./Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      localstack:
+        condition: service_started
+    container_name: account
+    image: 279729537895.dkr.ecr.us-east-2.amazonaws.com/account-ecr:0.1.0
+    env_file:
+      - ../account/local.env
+      - ./db.env
+
+volumes:
+  postgres_data:
+    

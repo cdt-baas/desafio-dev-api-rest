@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: account
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            holder-service:
+              - uri: ${HOLDER_URL:http://localhost:8081}
+            account-service:
+              - uri: ${ACCOUNT_URL:http://localhost:8082}
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/account
+    username: ${DB_USER:digital}
+    password: ${DB_PASSWORD:digital}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+springdoc:
+  swagger-ui:
+    path: /account/swagger-ui.html
+  api-docs:
+    path: /account/api-docs
+
+account:
+  default-branch: 0001
+  withdraw-default-limit: 2000
+

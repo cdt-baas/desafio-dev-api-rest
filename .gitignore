@@ -1,0 +1,55 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.tfstate
+*.tfvars
+*.tfstate.backup
+*.out
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+/terraform/rds/.terraform/modules/rds_vpc/
+/terraform/rds/.terraform.lock.hcl
+/.idea/compiler.xml
+/.idea/digital-account.iml
+/.idea/encodings.xml
+/terraform/env.sh
+/.idea/git_toolbox_prj.xml
+/.idea/jarRepositories.xml
+/terraform/rds/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/LICENSE.txt
+/holder/.mvn/wrapper/maven-wrapper.properties
+/.idea/misc.xml
+/terraform/rds/.terraform/modules/modules.json
+/.idea/modules.xml
+/terraform/rds/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/terraform-provider-aws_v5.98.0_x5
+/.idea/vcs.xml
+/holder/aws.env
+/terraform/ecr/.terraform.lock.hcl
+/terraform/iam/.terraform.lock.hcl
+/terraform/secretsmanager/.terraform.lock.hcl
+/terraform/ecr/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/LICENSE.txt
+/terraform/iam/terraform.tfstate
+/terraform/iam/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/LICENSE.txt
+/terraform/ecr/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/terraform-provider-aws_v5.98.0_x5
+/terraform/iam/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/terraform-provider-aws_v5.98.0_x5
+/terraform/ecs/.terraform.lock.hcl
+/terraform/ecs/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/LICENSE.txt
+/terraform/ecs/.terraform/providers/registry.terraform.io/hashicorp/aws/5.98.0/linux_amd64/terraform-provider-aws_v5.98.0_x5
