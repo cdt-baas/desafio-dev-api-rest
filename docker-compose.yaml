@@ -1,0 +1,51 @@
+services:
+  api:
+    build: .
+    container_name: api
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+  database:
+    image: postgres:15.13
+    container_name: database
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/postgres_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: digital_acccount
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "$(cat /run/secrets/postgres_user)"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    secrets:
+      - postgres_password
+      - postgres_user
+
+volumes:
+  db_data:
+
+networks:
+  app_network:
+
+secrets:
+  postgres_user:
+    file: .docker/secrets/postgres_user.txt
+  postgres_password:
+    file: .docker/secrets/postgres_password.txt
