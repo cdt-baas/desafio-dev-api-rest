@@ -1,0 +1,35 @@
+services:
+  digital-account:
+    image: digital-account
+    container_name: api
+    environment:
+      database_url: jdbc:postgresql://database:5432/digital-account
+      database_username: admin
+      database_password: admin
+      secret_key: thisIsAVerySecretKeyInProductionUseAStrongOne
+      salt_value: 715ad28b091c19bc
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    container_name: database
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: digital-account
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8084:80"
+    depends_on:
+      - postgres

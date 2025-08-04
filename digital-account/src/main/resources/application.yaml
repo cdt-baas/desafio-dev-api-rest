@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: digital-account
+  jpa:
+    show-sql: true
+  datasource:
+    url: ${database_url:jdbc:postgresql://localhost:5432/digital-account}
+    username: ${database_username:admin}
+    password: ${database_password:admin}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health, metrics"
+logging:
+  level:
+    root: info
+
+secret-key: ${secret_key:thisIsAVerySecretKeyInProductionUseAStrongOne}
+
+#In production environment, choose a key manager(e.g. aws secrets manager)
+salt: ${salt_value:715ad28b091c19bc}

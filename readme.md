@@ -1,50 +1,171 @@
-# Cenário
+# Dock Dev Api Challenge
 
-A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
-Nossa próxima missão é construir uma nova conta digital Dock para nossos clientes utilizarem através de endpoints, onde receberemos requisições em um novo backend que deverá gerenciar as contas e seus portadores (os donos das contas digitais).
+Visando criar uma nova conta digital Dock, o Digital Account é uma API REST para cadastro e gerenciamento de contas. Desenvolvido com Spring Boot, Spring Data JPA e PostgreSQL.
 
-# Requisitos
+## Funcionalidades
+- ✅ **Criação de Contas**: Endpoint de criação de conta para usuário
+- ✅ **Depósitos**: Endpoint para clientes depositarem valores em suas contas
+- ✅ **Saques**: Endpoint para clientes realizarem saques de suas contas
+- ✅ **Extratos**: Geração de extratos detalhados das movimentações na conta
+- ✅ **Bloqueio/Desbloqueio de conta**: A conta pode bloqueada ou desbloqueada a qualquer momento
 
-- Deve ser possível criar e remover **portadores**
-    - Um **portador** deve conter apenas seu *nome completo* e *CPF*
-    - O *CPF* deve ser válido e único no cadastro de **portadores**
-- As **contas digital Dock** devem conter as seguintes funcionalidades:
-    - A conta deve ser criada utilizando o *CPF* do **portador**
-    - Uma conta deve ter seu *saldo*, *número* e *agência* disponíveis para consulta
-    - Necessário ter funcionalidade para fazer a *consulta de extrato* da conta *por período*
-    - Um **portador** pode fechar a **conta digital Dock** a qualquer instante
-    - Executar as operações de *saque* e *depósito*
-        - *Depósito* é liberado para todas as *contas ativas* e *desbloqueadas*
-        - *Saque* é permitido para todas as *contas ativas* e *desbloqueadas* desde que haja *saldo disponível* e não ultrapasse o limite diário de *2 mil reais*
+## Arquitetura
 
-## Regulação obrigatória
+### Estrutura do Projeto 
+```
+src/main/java/br/com/desafio/digitalaccount/
+├── config/             # Configurações (Controller Advice e Criptografia)
+├── controllers/        # Controllers REST
+├── domain/             # Classes de domínio da aplicação/Entidades JPA
+├── dto/                # Data Transfer Objects
+├── repositories/       # Repostórios JPA
+├── services/           # Lógica do negócio
+├── utils/              # Métodos utilitários
+└── DigitalAccountApplication.java
+```
 
-- Precisamos *bloquear* e *desbloquear* a **conta digital Dock** a qualquer momento
-- A **conta digital Dock** nunca poderá ter o *saldo negativo*
+## Tecnologias
+
+- **Java 21** - Linguagem utilizada
+- **Spring Boot 3.5.4** - Framework base
+- **Spring Data JPA** - Persistência
+- **PostgreSQL** - Banco de dados
+- **Flyway** - Migrations do Banco de dados
+- **Spring Boot Starter Validation** - Utilitário que simplifica validações
+- **Spring Security Crypto** - Utilitário de criptografia
+- **Spring Boot Actuator** - Monitoramento
+
+## Monitoramento
+
+### Health Check
+```http
+GET /actuator/health
+```
+
+### Métricas
+```http
+GET /actuator/metrics
+```
+
+### Swagger UI
+```http 
+GET /swagger-ui.html
+```
+
+## Endpoints
+
+### Portadores
+```http
+# Criar portador
+POST /account-holders
+Content-Type: application/json
+Body: 
+{
+   "name": "John Doe",
+   "cpf": "XXX.YYY.ZZZ-WW"
+}
 
 
-#  Orientações
+# Excluir portador
+DELETE /account-holders
+Content-Type: application/json
+Body: 
+{
+   "name": "John Doe",
+   "cpf": "XXX.YYY.ZZZ-WW"
+}
 
-Utilize qualquer uma das linguagens de programação:
-- Java
-- Javascript
-- Typescript
-- Python
-- Kotlin
-- Golang
+*Informar um CPF válido
+```
 
-Desenvolva o case seguindo as melhores práticas que julgar necessário, aplique todos os conceitos, se atente a qualidade, utilize toda e qualquer forma de governança de código válido. Vamos considerar toda e qualquer implementação, trecho de código, documentação e/ou intenção compartilhada conosco. Esperamos também que o desafio seja feito dentro do tempo disponibilizado e que esteja condizente com a posição pretendida.
+### Contas
+```http
+# Criar conta
+POST /account
+Content-Type: application/json
+Body: 
+{
+    "name": "John Doe",
+    "cpf": "XXX.YYY.ZZZ-WW",
+    "initialBalance": 0.00
+}
 
-É necessário ter o desafio 100% funcional contendo informações e detalhes sobre: como iniciar a aplicação, interagir com as funcionalidades disponíveis e qualquer outro ponto adicional.
+DELETE /account
+Content-Type: application/json
+Body: {
+    "number": "862151-9",
+    "cpf": "XXX.YYY.ZZZ-WW"
+}
 
-## Diferenciais
+# Bloquear conta
+PUT /account/block
+Content-Type: application/json
+Body: {
+    "accountNumber": "862151-9",
+    "accountHolderCpf": "XXX.YYY.ZZZ-WW"
+}
 
-- Práticas, padrões e conceitos de microservices será considerado um diferencial para nós por existir uma variedade de produtos e serviços dentro da Dock.
-- Temos 100% das nossas aplicações e infraestrutura na nuvem, consideramos um diferencial, caso o desafio seja projeto para ser executado na nuvem.
-- Nossos times são autônomos e têm liberdade para definir arquiteturas e soluções. Por este motivo será considerado diferencial toda: arquitetura, design, paradigma e documentação detalhando a sua abordagem.
+# Desbloquear conta
+PUT /account/unblock
+Content-Type: application/json
+Body: {
+    "accountNumber": "862151-9",
+    "accountHolderCpf": "XXX.YYY.ZZZ-WW"
+}
 
-### Instruções
-      1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador, os usuários informados no email pelo time de recrutameto ;
-      3. Após concluir seu trabalho faça um push; 
-      4. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+# Realizar Depósito
+POST /account/deposit
+Content-Type: application/json
+Body: {
+    "accountNumber": "551361-8",
+    "accountHolderCpf": "XXX.YYY.ZZZ-WW",
+    "amount": "1.00"
+}
+
+# Realizar Saque
+POST /account/withdraw
+Content-Type: application/json
+Body: {
+    "accountNumber": "551361-8",
+    "accountHolderCpf": "XXX.YYY.ZZZ-WW",
+    "amount": "20.00"
+}
+
+
+# Consulta Extrato
+POST /account/statement
+Content-Type: application/json
+Body: {
+    "accountNumber": "862151-9",
+    "accountHolderCpf": "XXX.YYY.ZZZ-WW",
+    "startDate": "2025-08-02",
+    "endDate": "2025-08-04" 
+}
+
+*Informar CPF Válido
+```
+
+## Execução
+
+### Desenvolvimento
+````bash
+git clone <repo-url>
+cd digital-account
+
+# Executar com Gradle
+./gradlew bootRun
+````
+
+### Docker(Opcional)
+````bash
+docker build -t digital-account .
+
+# Via docker-compose, vai rodar imagem do PostgreSQL junto
+docker compose up
+````
+
+### Desenvolvimento com Banco de Dados (Obrigatório)
+````bash
+#PostgreSQL e PgAdmin(Opcional)
+docker compose -f docker-compose-light.yaml 
+```` 
