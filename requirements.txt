@@ -1,0 +1,7 @@
+fastapi==0.95.0
+uvicorn==0.21.0
+validate-docbr==1.2.0
+pydantic==1.9.0
+pytest==7.2.0
+pytest-asyncio==0.18.3
+httpx==0.23.0
